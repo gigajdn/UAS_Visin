@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="dashboard.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <style>
+    body {
+      margin-top: 40px;
+      padding: 0 20px;
+    }
+  </style>
+
+  <body>
+    <nav class="navbar">
+      <span class="navbar-brand mb-0 h1"
+        >Dashboard Grafik Jumlah Kematian di Indonesia Berdasarkan Penyebabnya
+        (2000-2022)</span
+      >
+    </nav>
+
+    <div class="container mt-8">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">Grafik 1</div>
+            <div class="card-body">
+              <div id="chart1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>Kesimpulan:</h2>
+      <p>
+        Grafik di atas memvisualisasikan frekuensi terjadinya berbagai jenis
+        bencana di Indonesia dari tahun 2000 hingga 2022. Terlihat bahwa bencana
+        alam mengalami tingkat kejadian yang signifikan pada tahun 2005 dan
+        2006, tetapi mengalami penurunan setelah periode tersebut. Di sisi lain,
+        bencana bukan alam dan penyakit mengalami peningkatan yang berarti dari
+        tahun ke tahun, terutama pada tahun 2021. Meskipun jarang
+        terjadi, bencana sosial juga menunjukkan beberapa puncak kejadian pada
+        tahun 2021.
+      </p>
+    </div>
+    <!-- Tambahkan lebih banyak elemen div untuk grafik lainnya -->
+  </body>
+
+  <script>
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(getSpreadsheetData);
+
+    function getSpreadsheetData() {
+      var spreadsheetId = "13M8KS57iGqom2a9MnNfHWS4xuOnNJ-nyR6He9VSvjRU";
+      var range = "Sheet2!A1:D25";
+
+      var query = new google.visualization.Query(
+        "https://docs.google.com/spreadsheets/d/" +
+          spreadsheetId +
+          "/gviz/tq?gid=0&range=" +
+          range
+      );
+      query.send(handleQueryResponse);
+    }
+
+    function handleQueryResponse(response) {
+      if (response.isError()) {
+        console.error("Error: " + response.getMessage());
+        return;
+      }
+
+      var data = response.getDataTable();
+      drawCharts(data);
+    }
+
+    function drawCharts(data) {
+      var options = {
+        title: "Grafik Rata Rata Jumlah QTY Untuk Setiap Produk ",
+      };
+
+      var chart1 = new google.visualization.ColumnChart(
+        document.getElementById("chart1")
+      );
+      chart1.draw(data, options);
+      // Tambahkan jenis grafik lain dan elemen div untuk grafik lainnya
+    }
+  </script>
+</html>
